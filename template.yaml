@@ -1,0 +1,38 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  Função Lambda para previsão de temperatura com dados da Open-Meteo e modelo treinado.
+
+Globals:
+  Function:
+    Timeout: 300
+    Tracing: Active
+    LoggingConfig:
+      LogFormat: JSON
+
+Resources:
+  WeatherPredictorFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: hello_world/
+      Handler: predict_lambda.lambda_handler
+      Runtime: python3.11
+      Architectures:
+        - x86_64
+      Timeout: 360
+      MemorySize: 512
+      Policies:
+        - S3ReadPolicy:
+            BucketName: dados-clima
+        - S3WritePolicy:
+            BucketName: dados-clima
+      Events:
+        HourlySchedule:
+          Type: Schedule
+          Properties:
+            Schedule: cron(0 9 ? * MON *)  # 06:00 BRT = 09:00 UTC
+
+Outputs:
+  WeatherPredictorFunction:
+    Description: Lambda que prevê temperatura e salva no S3 a cada hora
+    Value: !GetAtt WeatherPredictorFunction.Arn
