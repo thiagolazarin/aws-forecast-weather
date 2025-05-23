@@ -40,25 +40,27 @@ Este projeto automatiza a previsão de temperatura para diferentes cidades, util
 ---
 
 ## 🗂️ Estrutura de Pastas
+```
 EXTRACT-DATA-FORECAST/
-├── aws_lambda/ # Código da Lambda que gera previsões
-│ ├── init.py
-│ ├── predict_lambda.py
-│ └── requirements.txt
+├── aws_lambda/              # Código da Lambda que gera previsões
+│   ├── __init__.py
+│   ├── predict_lambda.py
+│   └── requirements.txt
 ├── events/
-│ └── event.json # Exemplo de evento de teste para a Lambda
+│   └── event.json           # Exemplo de evento de teste para a Lambda
 ├── load-data/
-│ └── data-extract.ipynb # Notebook para extrair dados históricos do Open-Meteo
+│   └── data-extract.ipynb   # Notebook para extrair dados históricos do Open-Meteo
 ├── ml/
-│ ├── forecast_weather.ipynb
-│ ├── scaler.pkl # Scaler do modelo
-│ └── svr_model.pkl # Modelo treinado (SVR)
+│   ├── forecast_weather.ipynb
+│   ├── scaler.pkl           # Scaler do modelo
+│   └── svr_model.pkl        # Modelo treinado (SVR)
 ├── tests/
-│ └── init.py
+│   └── __init__.py
 ├── .gitignore
-├── samconfig.toml # Configuração SAM CLI
-├── README.md # Este arquivo
-└── .aws-sam/ # Ignorado (build temporário do SAM)
+├── samconfig.toml           # Configuração SAM CLI
+├── README.md                # Este arquivo
+└── .aws-sam/                # Ignorado (build temporário do SAM)
+```
 
 ## ⚙️ Fluxo de Execução
 
