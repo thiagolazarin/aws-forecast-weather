@@ -3,12 +3,47 @@
 Este projeto automatiza a previsão de temperatura para diferentes cidades, utilizando dados da API Open-Meteo, machine learning com Python e infraestrutura em nuvem da AWS. O resultado é visualizado em tempo real no Power BI através do Amazon Athena.
 
 ---
+
+## 🚀 Tecnologias Utilizadas
+O projeto foi desenvolvido através do AWS SAM CLI localmente.
+- **Python + Jupyter Notebook** (pré-processamento e modelagem)
+- **Docker** (Executar localmente funções lambda)
+- **AWS S3** (armazenamento de dados e modelos)
+- **AWS Lambda** (execução automatizada de previsões e gatilhos)
+- **AWS Glue Crawler** (catálogo automático de dados)
+- **Amazon Athena** (consulta SQL sobre dados particionados)
+- **Power BI** (visualização dos resultados)
+- **Open-Meteo API** (dados de clima abertos)
+
+---
+
+## 🧠 Funcionalidade do Projeto
+
+1. **Extração de Dados**
+   - Usa Jupyter para coletar dados históricos da Open-Meteo
+
+2. **Modelagem**
+   - Treina um modelo de machine learning (SVR) com features temporais
+   - Salva o modelo e o scaler em um bucket S3
+
+3. **Agendamento**
+   - Um agendador do Windows executa a previsão semanalmente via script Python a cada 7 dias
+
+4. **Execução da Previsão**
+   - Um Lambda executa o modelo, gera previsões para 7 dias e salva no S3 em formato particionado (`data=` e `cidade=`)
+
+5. **Atualização automática**
+   - Outro Lambda escuta o S3 e dispara o Glue Crawler para atualizar o catálogo
+
+6. **Consulta e Visualização**
+   - Dados são consultados via Athena e visualizados no Power BI via ODBC
+
+---
+
 ## Informações sobre a criação do modelo de machine learning:
 1. Análise e coleta dos dados do open meteo salvo no bucket S3
 2. Os dados utilizados no treinamento são do ano de 2024, totalizando 8784 registros.
 3. A terceira etapa foi de treinamento e avaliação do modelo:
-
-📊 Variáveis Utilizadas
 
 O modelo de previsão de temperatura foi treinado com as seguintes variáveis climáticas e temporais:
 
@@ -41,46 +76,13 @@ month_sin e month_cos: Representam o mês do ano com sazonalidade cíclica
 Essas variáveis derivadas ajudam o modelo a compreender padrões temporais sem introduzir ordinalidade indevida.
 
 # Avaliação do modelo:
-MAE (Erro Médio Absoluto): 0.0950
-RMSE (Raiz do Erro Quadrático Médio): 0.1589
-R² (Coeficiente de Determinação): 0.9990
-MAPE (Percentual do erro médio absoluto): 0.004189031997725184
+MAE (Erro Médio Absoluto): Mede o erro médio absoluto entre os valores reais e previstos. Quanto menor, melhor. Indica que o modelo, em média, erra 0.0950 unidades.
 
+RMSE (Raiz do Erro Quadrático Médio): Mede o erro médio, penalizando mais fortemente erros maiores. Um RMSE de 0.1589 indica que os erros do modelo têm baixa magnitude.
 
-## 🚀 Tecnologias Utilizadas
+R² (Coeficiente de Determinação): Mede o quanto da variabilidade dos dados o modelo consegue explicar. Um R² de 0.9990 mostra que o modelo explica 99,90% da variância dos dados — excelente desempenho.
 
-- **Python + Jupyter Notebook** (pré-processamento e modelagem)
-- **AWS S3** (armazenamento de dados e modelos)
-- **AWS Lambda** (execução automatizada de previsões e gatilhos)
-- **AWS Glue Crawler** (catálogo automático de dados)
-- **Amazon Athena** (consulta SQL sobre dados particionados)
-- **Power BI** (visualização dos resultados)
-- **Open-Meteo API** (dados de clima abertos)
-
----
-
-## 🧠 Funcionalidade do Projeto
-
-1. **Extração de Dados**
-   - Usa Jupyter para coletar dados históricos da Open-Meteo
-
-2. **Modelagem**
-   - Treina um modelo de machine learning (SVR) com features temporais
-   - Salva o modelo e o scaler em um bucket S3
-
-3. **Agendamento**
-   - Um agendador do Windows executa a previsão semanalmente via script Python a cada 7 dias
-
-4. **Execução da Previsão**
-   - Um Lambda executa o modelo, gera previsões para 7 dias e salva no S3 em formato particionado (`data=` e `cidade=`)
-
-5. **Atualização automática**
-   - Outro Lambda escuta o S3 e dispara o Glue Crawler para atualizar o catálogo
-
-6. **Consulta e Visualização**
-   - Dados são consultados via Athena e visualizados no Power BI via ODBC
-
----
+MAPE (Percentual do Erro Médio Absoluto): Expressa o erro médio absoluto em termos percentuais. Um MAPE de 0.0042 (ou 0,42%) indica altíssima precisão nas previsões.
 
 ## 🗂️ Estrutura de Pastas
 ```
