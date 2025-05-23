@@ -3,6 +3,49 @@
 Este projeto automatiza a previsão de temperatura para diferentes cidades, utilizando dados da API Open-Meteo, machine learning com Python e infraestrutura em nuvem da AWS. O resultado é visualizado em tempo real no Power BI através do Amazon Athena.
 
 ---
+## Informações sobre a criação do modelo de machine learning:
+1. Análise e coleta dos dados do open meteo salvo no bucket S3
+2. Os dados utilizados no treinamento são do ano de 2024, totalizando 8784 registros.
+3. A terceira etapa foi de treinamento e avaliação do modelo:
+
+📊 Variáveis Utilizadas
+
+O modelo de previsão de temperatura foi treinado com as seguintes variáveis climáticas e temporais:
+
+🌦️ Variáveis Climáticas:
+
+relative_humidity_2m: Umidade relativa do ar a 2 metros de altura
+
+apparent_temperature: Temperatura aparente considerando vento e umidade
+
+precipitation: Volume de precipitação acumulado em um período
+
+rain: Indicador binário de ocorrência de chuva
+
+weather_code: Código que representa a condição climática
+
+cloud_cover: Percentual de cobertura de nuvens
+
+wind_direction_10m: Direção do vento a 10 metros de altura
+
+wind_speed_10m: Velocidade do vento a 10 metros de altura
+
+is_day: Indicador binário para diferenciar dia e noite
+
+🕒 Variáveis Temporais Derivadas (Engenharia de Features):
+
+hour_sin e hour_cos: Representam a hora do dia de forma cíclica, preservando periodicidade horária
+
+month_sin e month_cos: Representam o mês do ano com sazonalidade cíclica
+
+Essas variáveis derivadas ajudam o modelo a compreender padrões temporais sem introduzir ordinalidade indevida.
+
+# Avaliação do modelo:
+MAE (Erro Médio Absoluto): 0.0950
+RMSE (Raiz do Erro Quadrático Médio): 0.1589
+R² (Coeficiente de Determinação): 0.9990
+MAPE (Percentual do erro médio absoluto): 0.004189031997725184
+
 
 ## 🚀 Tecnologias Utilizadas
 
@@ -26,7 +69,7 @@ Este projeto automatiza a previsão de temperatura para diferentes cidades, util
    - Salva o modelo e o scaler em um bucket S3
 
 3. **Agendamento**
-   - Um agendador do Windows executa a previsão semanalmente via script Python
+   - Um agendador do Windows executa a previsão semanalmente via script Python a cada 7 dias
 
 4. **Execução da Previsão**
    - Um Lambda executa o modelo, gera previsões para 7 dias e salva no S3 em formato particionado (`data=` e `cidade=`)
@@ -61,41 +104,6 @@ EXTRACT-DATA-FORECAST/
 ├── README.md                # Este arquivo
 └── .aws-sam/                # Ignorado (build temporário do SAM)
 ```
-
-
-## Informações sobre a criação do modelo de machine learning:
-📊 Variáveis Utilizadas
-
-O modelo de previsão de temperatura foi treinado com as seguintes variáveis climáticas e temporais:
-
-🌦️ Variáveis Climáticas:
-
-relative_humidity_2m: Umidade relativa do ar a 2 metros de altura
-
-apparent_temperature: Temperatura aparente considerando vento e umidade
-
-precipitation: Volume de precipitação acumulado em um período
-
-rain: Indicador binário de ocorrência de chuva
-
-weather_code: Código que representa a condição climática
-
-cloud_cover: Percentual de cobertura de nuvens
-
-wind_direction_10m: Direção do vento a 10 metros de altura
-
-wind_speed_10m: Velocidade do vento a 10 metros de altura
-
-is_day: Indicador binário para diferenciar dia e noite
-
-🕒 Variáveis Temporais Derivadas (Engenharia de Features):
-
-hour_sin e hour_cos: Representam a hora do dia de forma cíclica, preservando periodicidade horária
-
-month_sin e month_cos: Representam o mês do ano com sazonalidade cíclica
-
-Essas variáveis derivadas ajudam o modelo a compreender padrões temporais sem introduzir ordinalidade indevida.
-
 
 ## ⚙️ Fluxo de Execução
 
