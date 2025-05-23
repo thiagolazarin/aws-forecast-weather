@@ -111,6 +111,7 @@ EXTRACT-DATA-FORECAST/
 
 1. **load-data**: coleta dados históricos com Jupyter + Open-Meteo
 2. **ml**: treina modelo SVR com features de hora e mês (seno/cosseno)
+3. **agendador windows**: O agendador do windows roda a cada 7 dias e coloca todo o processo em produção.
 3. **aws_lambda**: Lambda gera previsão dos próximos 7 dias e salva JSON particionado no S3
 4. **Crawler**: é acionado automaticamente por outra Lambda quando um novo arquivo é salvo no bucket
 5. **Athena**: consulta os dados no formato `data=YYYY-MM-DD`, `cidade=sao_paulo`, etc.
