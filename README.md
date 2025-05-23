@@ -115,3 +115,6 @@ EXTRACT-DATA-FORECAST/
 4. **Crawler**: é acionado automaticamente por outra Lambda quando um novo arquivo é salvo no bucket
 5. **Athena**: consulta os dados no formato `data=YYYY-MM-DD`, `cidade=sao_paulo`, etc.
 6. **Power BI**: conexão via ODBC com Athena para visualização
+
+### 📊 Exemplo de Dashboard
+![Dashboard no Power BI](img/img-dash.png)
