@@ -62,6 +62,41 @@ EXTRACT-DATA-FORECAST/
 └── .aws-sam/                # Ignorado (build temporário do SAM)
 ```
 
+
+## Informações sobre a criação do modelo de machine learning:
+📊 Variáveis Utilizadas
+
+O modelo de previsão de temperatura foi treinado com as seguintes variáveis climáticas e temporais:
+
+🌦️ Variáveis Climáticas:
+
+relative_humidity_2m: Umidade relativa do ar a 2 metros de altura
+
+apparent_temperature: Temperatura aparente considerando vento e umidade
+
+precipitation: Volume de precipitação acumulado em um período
+
+rain: Indicador binário de ocorrência de chuva
+
+weather_code: Código que representa a condição climática
+
+cloud_cover: Percentual de cobertura de nuvens
+
+wind_direction_10m: Direção do vento a 10 metros de altura
+
+wind_speed_10m: Velocidade do vento a 10 metros de altura
+
+is_day: Indicador binário para diferenciar dia e noite
+
+🕒 Variáveis Temporais Derivadas (Engenharia de Features):
+
+hour_sin e hour_cos: Representam a hora do dia de forma cíclica, preservando periodicidade horária
+
+month_sin e month_cos: Representam o mês do ano com sazonalidade cíclica
+
+Essas variáveis derivadas ajudam o modelo a compreender padrões temporais sem introduzir ordinalidade indevida.
+
+
 ## ⚙️ Fluxo de Execução
 
 1. **load-data**: coleta dados históricos com Jupyter + Open-Meteo
