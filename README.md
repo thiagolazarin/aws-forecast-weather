@@ -117,5 +117,11 @@ EXTRACT-DATA-FORECAST/
 5. **Athena**: consulta os dados no formato `data=YYYY-MM-DD`, `cidade=sao_paulo`, etc.
 6. **Power BI**: conexão via ODBC com Athena para visualização
 
+### Print de temperatura prevista x real em janeiro e fevereiro:
+![alt text](image-1.png)
+
+![alt text](image-2.png)
+
+
 ### 📊 Exemplo de Dashboard
 ![Dashboard no Power BI](img/img-dash.png)
